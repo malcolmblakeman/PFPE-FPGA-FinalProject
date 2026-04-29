@@ -50,8 +50,8 @@ architecture Behavioral of PI_Buck is
 	constant Cmd_Max: std_logic_vector(15 downto 0) := X"0F00";
 	constant Cmd_Min: std_logic_vector(15 downto 0) := X"0000";
 
-	constant P_Shift: integer := 1;
-	constant I_Shift: integer := 1;
+	constant P_Shift: integer := 2;
+	constant I_Shift: integer := 14;
 
 	signal Bus_Int1_WE, Bus_Int1_RE, Bus_Int1_Busy : STD_LOGIC:= '0';
 	signal Bus_Int1_DataIn, Bus_Int1_DataOut, Bus_Int1_AddrIn : STD_LOGIC_VECTOR(15 downto 0) := (others => '0');
@@ -206,8 +206,8 @@ begin
 		LD_Err <= '1';
 		NS_Bus <= S9;
 	when S9 =>
-		I_Temp <= shift_right(Err_reg_o, 14);
-		P_Temp <= shift_right(Err_reg_o,2);
+		I_Temp <= shift_right(Err_reg_o, I_Shift);
+		P_Temp <= shift_right(Err_reg_o,P_Shift);
 		LD_I <= '1';
 		LD_P <= '1';
 		NS_Bus <= S10;
